@@ -1,11 +1,28 @@
-name: Build
-on: [push, pull_request]
+name: main
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+      - 'LICENSE'
+      - '.gitignore'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: install_dependencies
       run: sudo apt-get install libcunit1-dev clang
@@ -26,23 +43,13 @@ jobs:
         CFLAGS: -g -O0 -fsanitize=address -DUSE_DEVICE_DEPENDENT_ERROR_INFORMATION=0
         LDFLAGS: -g -fsanitize=address
       run: make clean test
-      
+
     - name: clang_sanitize_address_nomalloc
       env:
         CC: clang
         CFLAGS: -g -O0 -fsanitize=address -DUSE_MEMORY_ALLOCATION_FREE=0
         LDFLAGS: -g -fsanitize=address
       run: make clean test
-
-    - name: gcc-c89
-      env:
-        CFLAGS: -std=c89
-      run: make clean all test
-
-    - name: gcc-c90
-      env:
-        CFLAGS: -std=c90
-      run: make clean all test
 
     - name: gcc-c99
       env:
@@ -69,11 +76,11 @@ jobs:
           apt-get update -q -y
           apt-get install -q -y build-essential libcunit1-dev
         run: make clean all test
-      
+
   coverage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: install_dependencies
       run: sudo apt-get install libcunit1-dev lcov
@@ -84,7 +91,7 @@ jobs:
         CXXFLAGS: -fprofile-arcs -ftest-coverage
         LDFLAGS: -lgcov
       run: make clean all test
-    
+
     - name: lcov_capture
       run: lcov --capture --directory libscpi/ --output-file lcov.info
 

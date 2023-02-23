@@ -1,11 +1,5 @@
-SCPI parser library v2
+SCPI Parser
 ===========
-
-![Build status](https://github.com/j123b567/scpi-parser/actions/workflows/main.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/j123b567/scpi-parser/badge.svg?branch=master&service=github)](https://coveralls.io/github/j123b567/scpi-parser?branch=master)
-
-Documentation
---------
-Documentation is available at [http://j123b567.github.io/scpi-parser](http://j123b567.github.io/scpi-parser).
 
 Examples
 --------
